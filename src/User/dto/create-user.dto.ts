@@ -1,9 +1,7 @@
-import { ApiProperty } from "@nestjs/swagger"
-import { IsNumber, IsPositive } from "class-validator"
+import { ApiProperty } from '@nestjs/swagger';
+import { IsNumber, IsPositive } from 'class-validator';
 
 export class CreateUserDto {
-  @IsNumber()
-  @IsPositive()
   @ApiProperty({
     description: 'usúarios disponiveis',
     example: {
@@ -11,11 +9,11 @@ export class CreateUserDto {
       email: 'pedrogm@gmail.com',
       password: 45493,
       cpf: 567893280,
-    }
+    },
   })
-  name: String
-  email: String
-  password: Number
-  cpf: Number
-  isAdmin?: String
+  name: String;
+  email: String;
+  password: Number;
+  cpf: Number;
+  isAdmin?: String;
 }
