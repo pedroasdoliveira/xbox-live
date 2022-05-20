@@ -13,14 +13,16 @@ export class UserService {
     return this.prisma.user.findMany();
   }
 
-  findOne(id: string): Promise<User> {
-    return this.prisma.user.findUnique({where: {id}});
+  async findOne(id: string): Promise<User> {
+    const user = await this.prisma.user.findUnique({ where: { id } });
+
+    return { ...user };
   }
 
   create(dto: CreateUserDto): Promise<User> {
     const data: User = { ...dto };
 
-    return this.prisma.user.create({ data }); 
+    return this.prisma.user.create({ data });
   }
 
   update(id: string, dto: UpdateUserDto): Promise<User> {
