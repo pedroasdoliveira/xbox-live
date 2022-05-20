@@ -11,9 +11,9 @@ export class CreateUserDto {
       cpf: 567893280,
     },
   })
-  name: String;
-  email: String;
-  password: Number;
-  cpf: Number;
-  isAdmin?: String;
+  name: string;
+  email: string;
+  password: number;
+  cpf: number;
+  isAdmin?: boolean;
 }
