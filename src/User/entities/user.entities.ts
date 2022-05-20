@@ -2,7 +2,7 @@ export class User {
   id?: string;
   name: string;
   email: string;
-  password: number;
-  cpf: number;
+  password: string;
+  cpf: string;
   isAdmin?: boolean;
 }

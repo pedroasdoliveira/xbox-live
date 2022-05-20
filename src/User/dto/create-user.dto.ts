@@ -13,7 +13,7 @@ export class CreateUserDto {
   })
   name: string;
   email: string;
-  password: number;
-  cpf: number;
+  password: string;
+  cpf: string;
   isAdmin?: boolean;
 }

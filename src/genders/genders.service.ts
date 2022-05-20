@@ -9,7 +9,7 @@ export class GendersService {
   constructor(private readonly prisma: PrismaService) {}
 
   findAll(): Promise<Gender[]> {
-    return this.prisma.gender.findAll();
+    return this.prisma.genders.findMany();
   }
 
   findOne(id: number) {
