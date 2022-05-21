@@ -39,7 +39,7 @@ model User {
   name     String   @unique
   email    String   @unique
   password String
-  cpf      String      @unique
+  cpf      Int      @unique
   isAdmin  Boolean?
 
   createAt DateTime @default(now())

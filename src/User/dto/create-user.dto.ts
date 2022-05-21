@@ -1,19 +1,35 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsBoolean, IsNumber, IsString } from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
   @ApiProperty({
     description: 'Usúario',
-    example: 'Pedro',
+    example: 'Lazaro',
   })
   name: string;
 
+  @IsString()
+  @ApiProperty({
+    example: 'LazaroKiller@hotmail.com',
+  })
   email: string;
 
+  @IsString()
+  @ApiProperty({
+    example: 'Viado123',
+  })
   password: string;
 
-  cpf: string;
+  @IsNumber()
+  @ApiProperty({
+    example: 5556338503394,
+  })
+  cpf: number;
 
+  @IsBoolean()
+  @ApiProperty({
+    example: false,
+  })
   isAdmin?: boolean;
 }
