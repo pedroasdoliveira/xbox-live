@@ -28,7 +28,7 @@ model Games {
 model Genders {
   id String @id @default(uuid())
 
-  name String
+  name String @unique
 
   createAt DateTime @default(now()) @map("created_at")
   updateAt DateTime @updatedAt @map("updated_at")

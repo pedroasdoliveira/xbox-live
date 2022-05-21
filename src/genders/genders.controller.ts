@@ -1,34 +1,52 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus } from '@nestjs/common';
 import { GendersService } from './genders.service';
 import { CreateGenderDto } from './dto/create-gender.dto';
 import { UpdateGenderDto } from './dto/update-gender.dto';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('genders')
 @Controller('genders')
 export class GendersController {
   constructor(private readonly gendersService: GendersService) {}
 
   @Post()
+  @ApiOperation({
+    summary: 'criar gênero de jogo'
+  })
   create(@Body() createGenderDto: CreateGenderDto) {
     return this.gendersService.create(createGenderDto);
   }
 
   @Get()
+  @ApiOperation({
+    summary: 'Lista gêneros de jogos'
+  })
   findAll() {
     return this.gendersService.findAll();
   }
 
   @Get(':id')
+  @ApiOperation({
+    summary: 'Visualizar gêneros'
+  })
   findOne(@Param('id') id: string) {
-    return this.gendersService.findOne(+id);
+    return this.gendersService.findOne(id);
   }
 
   @Patch(':id')
+  @ApiOperation({
+    summary: 'Editar gênero de jogo por Id'
+  })
   update(@Param('id') id: string, @Body() updateGenderDto: UpdateGenderDto) {
-    return this.gendersService.update(+id, updateGenderDto);
+    return this.gendersService.update(id, updateGenderDto);
   }
 
   @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({
+    summary: 'Remover gênero de jogo'
+  })
   delete(@Param('id') id: string) {
-    return this.gendersService.delete(+id);
+    return this.gendersService.delete(id);
   }
 }

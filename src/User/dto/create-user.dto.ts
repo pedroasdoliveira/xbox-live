@@ -1,19 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsPositive } from 'class-validator';
+import { IsString } from 'class-validator';
 
 export class CreateUserDto {
+  @IsString()
   @ApiProperty({
-    description: 'usúarios disponiveis',
-    example: {
-      name: 'Pedro',
-      email: 'pedrogm@gmail.com',
-      password: 45493,
-      cpf: 567893280,
-    },
+    description: 'Usúario',
+    example: 'Pedro',
   })
   name: string;
+
   email: string;
+
   password: string;
+
   cpf: string;
+
   isAdmin?: boolean;
 }
