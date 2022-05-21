@@ -33,4 +33,8 @@ export class UserService {
       data,
     })
   }
+
+  delete(id: string) {
+    throw new Error('Method not implemented.');
+  }
 }

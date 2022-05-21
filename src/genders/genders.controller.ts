@@ -47,6 +47,6 @@ export class GendersController {
     summary: 'Remover gênero de jogo'
   })
   delete(@Param('id') id: string) {
-    return this.gendersService.delete(id);
+    this.gendersService.delete(id);
   }
 }
