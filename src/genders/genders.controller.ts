@@ -3,6 +3,7 @@ import { GendersService } from './genders.service';
 import { CreateGenderDto } from './dto/create-gender.dto';
 import { UpdateGenderDto } from './dto/update-gender.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Gender } from './entities/gender.entity';
 
 @ApiTags('genders')
 @Controller('genders')
@@ -13,7 +14,7 @@ export class GendersController {
   @ApiOperation({
     summary: 'criar gênero de jogo'
   })
-  create(@Body() createGenderDto: CreateGenderDto) {
+  create(@Body() createGenderDto: CreateGenderDto): Promise<Gender> {
     return this.gendersService.create(createGenderDto);
   }
 
@@ -21,7 +22,7 @@ export class GendersController {
   @ApiOperation({
     summary: 'Lista gêneros de jogos'
   })
-  findAll() {
+  findAll(): Promise<Gender[]> {
     return this.gendersService.findAll();
   }
 
@@ -29,7 +30,7 @@ export class GendersController {
   @ApiOperation({
     summary: 'Visualizar gêneros'
   })
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string): Promise<Gender> {
     return this.gendersService.findOne(id);
   }
 
@@ -37,7 +38,7 @@ export class GendersController {
   @ApiOperation({
     summary: 'Editar gênero de jogo por Id'
   })
-  update(@Param('id') id: string, @Body() updateGenderDto: UpdateGenderDto) {
+  update(@Param('id') id: string, @Body() updateGenderDto: UpdateGenderDto): Promise<Gender> {
     return this.gendersService.update(id, updateGenderDto);
   }
 

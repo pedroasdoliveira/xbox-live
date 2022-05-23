@@ -3,25 +3,18 @@ import { GamesService } from './games.service';
 import { CreateGameDto } from './dto/create-game.dto';
 import { UpdateGameDto } from './dto/update-game.dto';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Game } from './entities/game.entity';
 
 @ApiTags('games')
 @Controller('games')
 export class GamesController {
   constructor(private readonly gamesService: GamesService) {}
 
-  @Post()
-  @ApiOperation({
-    summary: 'Criar Jogo'
-  })
-  create(@Body() createGameDto: CreateGameDto) {
-    return this.gamesService.create(createGameDto);
-  }
-
   @Get()
   @ApiOperation({
     summary: 'Mostrar catalogo de jogos'
   })
-  findAll() {
+  findAll(): Promise<Game[]> {
     return this.gamesService.findAll();
   }
 
@@ -29,15 +22,23 @@ export class GamesController {
   @ApiOperation({
     summary: 'Procurar por Jogo'
   })
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string): Promise<Game> {
     return this.gamesService.findOne(id);
+  }
+
+  @Post()
+  @ApiOperation({
+    summary: 'Criar Jogo'
+  })
+  create(@Body() createGameDto: CreateGameDto): Promise<Game> {
+    return this.gamesService.create(createGameDto);
   }
 
   @Patch(':id')
   @ApiOperation({
     summary: 'Atualizar/modificar um Jogo por Id'
   })
-  update(@Param('id') id: string, @Body() updateGameDto: UpdateGameDto) {
+  update(@Param('id') id: string, @Body() updateGameDto: UpdateGameDto): Promise<Game> {
     return this.gamesService.update(id, updateGameDto);
   }
 
