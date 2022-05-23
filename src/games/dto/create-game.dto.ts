@@ -34,7 +34,7 @@ export class CreateGameDto {
   @IsNumber()
   @ApiProperty({
     description: 'Pontuação do jogo no IMB',
-    example: 4.3,
+    example: 4,
   })
   imbScore: number;
 
