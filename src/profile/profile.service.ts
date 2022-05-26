@@ -17,6 +17,11 @@ export class ProfileService {
       },
       title: createProfileDto.title,
       imageUrl: createProfileDto.imageUrl,
+      genders: {
+        connect: {
+          name: createProfileDto.genderName,
+        },
+      },
       games: {
         createMany: {
           data: createProfileDto.game.map((createProfileDto) => ({

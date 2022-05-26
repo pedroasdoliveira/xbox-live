@@ -37,6 +37,7 @@ model Genders {
   updateAt DateTime @updatedAt @map("updated_at")
 
   games GendersGames[]
+  profiles Profile[]
 }
 
 model User {
@@ -62,6 +63,9 @@ model Profile {
 
   user User @relation(fields: [userId], references: [id])
   userId String @map("user_id")
+
+  genders Genders @relation(fields: [gendersId], references: [id])
+  gendersId String @map("genders_id")
 
   games ProfileGames[]
 
