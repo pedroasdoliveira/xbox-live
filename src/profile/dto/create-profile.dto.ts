@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString, IsUrl, IsUUID } from "class-validator";
+import { createProfileGamesDto } from "./create-profile-games.dto";
 
 export class CreateProfileDto {
   @IsString()
@@ -35,5 +36,5 @@ export class CreateProfileDto {
     description: 'Jogos',
     example: '',
   })
-  game: string[]
+  game: createProfileGamesDto[]
 }
