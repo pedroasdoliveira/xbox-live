@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateProfileDto } from './dto/create-profile.dto';
@@ -17,15 +17,60 @@ export class ProfileService {
       },
       title: createProfileDto.title,
       imageUrl: createProfileDto.imageUrl,
+      games: {
+        createMany: {
+          data: createProfileDto.game.map((createProfileDto) => ({
+            gamesId: createProfileDto.gamesId,
+          })),
+        },
+      },
     };
+    return this.prisma.profile
+      .create({
+        data,
+        select: {
+          id: true,
+          title: true,
+          imageUrl: true,
+          user: {
+            select: {
+              name: true,
+            },
+          },
+          games: {
+            select: {
+              games: true,
+            },
+          },
+        },
+      })
+      .catch(this.handleError);
   }
 
   findAll() {
-    return `This action returns all profile`;
+    return this.prisma.profile.findMany({
+      select: {
+        id: true,
+        title: true,
+        imageUrl: true,
+        user: {
+          select: {
+            name: true,
+          },
+        },
+        games: {
+          select: {
+            games: true,
+          },
+        },
+      },
+    });
   }
 
   findOne(id: string) {
-    return `This action returns a #${id} profile`;
+    return this.prisma.profile.findUnique({
+      where: {id},
+    });
   }
 
   update(id: string, updateProfileDto: UpdateProfileDto) {
@@ -34,5 +79,18 @@ export class ProfileService {
 
   delete(id: string) {
     return `This action removes a #${id} profile`;
+  }
+
+  handleError(error: Error): undefined {
+    const errorLines = error.message?.split('\n');
+    const lastErrorLine = errorLines[errorLines.length - 1]?.trim();
+
+    if (!lastErrorLine) {
+      console.error(error);
+    }
+
+    throw new UnprocessableEntityException(
+      lastErrorLine || 'Algum erro ocorreu ao executar a operação',
+    );
   }
 }
