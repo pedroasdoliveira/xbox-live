@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateGenderDto } from './dto/create-gender.dto';
 import { UpdateGenderDto } from './dto/update-gender.dto';
@@ -27,7 +28,16 @@ export class GendersService {
   }
 
   create(createGenderDto: CreateGenderDto): Promise<Gender> {
-    const data: Gender = { ...createGenderDto };
+    const data: Prisma.GendersCreateInput = {
+      name: createGenderDto.name,
+      gamesGender: {
+        createMany: {
+          data: createGenderDto.games?.map((createGenderDto) => ({
+            gamesId: createGenderDto.gamesId
+          }))
+        }
+      }
+     };
 
     return this.prisma.genders.create({ data }).catch(this.handleError);
   }
@@ -35,7 +45,9 @@ export class GendersService {
   async update(id: string, updateGenderDto: UpdateGenderDto): Promise<Gender> {
     await this.findById(id);
 
-    const data: Partial<Gender> = { ...updateGenderDto };
+    const data: Prisma.GendersUpdateInput = {
+      name: updateGenderDto.name
+     };
 
     return this.prisma.genders.update({
       where: { id },

@@ -40,6 +40,7 @@ export class ProfileService {
           user: {
             select: {
               name: true,
+              nickname: true,
             },
           },
           games: {
@@ -61,6 +62,7 @@ export class ProfileService {
         user: {
           select: {
             name: true,
+            nickname: true,
           },
         },
         games: {
@@ -68,18 +70,48 @@ export class ProfileService {
             games: true,
           },
         },
+        _count: {
+          select: {
+            games: true,
+          }
+        }
       },
     });
   }
 
   findOne(id: string) {
     return this.prisma.profile.findUnique({
-      where: {id},
+      where: { id },
+      include: {
+        user: {
+          select: {
+            name: true,
+            nickname: true,
+          },
+        },
+        games: {
+          select: {
+            games: {
+              select: {
+                title: true,
+                coverImageUrl: true,
+                description: true,
+                year: true,
+                imbScore: true,
+                trailerYoutubeUrl: true,
+                gameplayYouTubeUrl: true,
+              },
+            },
+          },
+        },
+      },
     });
   }
 
   update(id: string, updateProfileDto: UpdateProfileDto) {
-    return `This action updates a #${id} profile`;
+    const data: Prisma.ProfileUpdateInput = {
+      
+    };
   }
 
   delete(id: string) {

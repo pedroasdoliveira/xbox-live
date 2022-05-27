@@ -36,7 +36,7 @@ model Genders {
   createAt DateTime @default(now()) @map("created_at")
   updateAt DateTime @updatedAt @map("updated_at")
 
-  games GendersGames[]
+  gamesGender GendersGames[]
   profiles Profile[]
 }
 
