@@ -10,6 +10,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entities';
 import * as bcrypt from 'bcrypt';
+import { cpf } from 'cpf-cnpj-validator';
 
 @Injectable()
 export class UserService {
@@ -47,6 +48,10 @@ export class UserService {
   }
 
   async create(dto: CreateUserDto): Promise<User> {
+    if (!cpf.isValid(dto.cpf)) {
+      throw new BadRequestException('CPF não é valido')
+    }
+
     if (dto.password != dto.confirmPassword) {
       throw new BadRequestException('As senhas informadas não são iguais.');
     }
@@ -55,7 +60,8 @@ export class UserService {
 
     const data: User = {
       ...dto,
-      password: await bcrypt.hash(dto.password, 10)
+      password: await bcrypt.hash(dto.password, 10),
+      cpf: cpf.format(dto.cpf)
      };
 
     return this.prisma.user.create({ data }).catch(this.handleError);
@@ -63,6 +69,12 @@ export class UserService {
 
   async update(id: string, dto: UpdateUserDto): Promise<User> {
     await this.findById(id);
+
+    if (dto.cpf) {
+      if (!cpf.isValid(dto.cpf)) {
+        throw new BadRequestException('CPF não é valido')
+      }
+    }
 
     if (dto.password) {
       if (dto.password != dto.confirmPassword) {
@@ -76,6 +88,10 @@ export class UserService {
 
     if (data.password) {
       data.password = await bcrypt.hash(data.password, 10)
+    }
+
+    if (data.cpf) {
+      data.cpf = cpf.format(data.cpf)
     }
 
     return this.prisma.user.update({
