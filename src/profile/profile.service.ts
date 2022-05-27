@@ -110,8 +110,17 @@ export class ProfileService {
 
   update(id: string, updateProfileDto: UpdateProfileDto) {
     const data: Prisma.ProfileUpdateInput = {
-      
+      title: updateProfileDto.title,
+      imageUrl: updateProfileDto.imageUrl,
+      games: {
+        
+      }
     };
+
+    return this.prisma.profile.update({
+      where: {id},
+      data,
+    })
   }
 
   delete(id: string) {
