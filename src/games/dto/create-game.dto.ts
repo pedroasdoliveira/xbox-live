@@ -51,4 +51,6 @@ export class CreateGameDto {
     example: 'https://www.youtube.com/watch?v=fWJSzIZIowI',
   })
   gameplayYouTubeUrl: string;
+
+  genreGame?: string;
 }
