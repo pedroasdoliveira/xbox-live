@@ -15,24 +15,8 @@ export class GamesService {
 
   findAll(): Promise<Game[]> {
     return this.prisma.games.findMany({
-      select: {
-        id: true,
-        title: true,
-        coverImageUrl: true,
-        description: true,
-        year: true,
-        imbScore: true,
-        trailerYoutubeUrl: true,
-        gameplayYouTubeUrl: true,
-        genders: {
-          select: {
-            genders: {
-              select: {
-                name: true
-              }
-            }
-          }
-        }
+      include: {
+        genders: true
       }
     });
   }
@@ -43,11 +27,7 @@ export class GamesService {
       include: {
         genders: {
           select: {
-            genders: {
-              select: {
-                name: true,
-              }
-            }
+            name: true
           }
         }
       }
@@ -75,7 +55,7 @@ export class GamesService {
       trailerYoutubeUrl: createGameDto.trailerYoutubeUrl,
       genders: {
         connect: {
-
+          name: createGameDto.genreGame
         }
       }
     };
@@ -89,7 +69,7 @@ export class GamesService {
   }
 
   async update(id: string, updateGameDto: UpdateGameDto): Promise<Game> {
-    await this.findById(id);
+    const actualGame =  await this.findById(id);
 
     const data: Prisma.GamesUpdateInput = {
       title: updateGameDto.title,
@@ -101,10 +81,10 @@ export class GamesService {
       trailerYoutubeUrl: updateGameDto.trailerYoutubeUrl,
       genders: {
         disconnect: {
-
+          name: actualGame.gender[0].name
         },
         connect: {
-
+          name: updateGameDto.genreGame
         }
       }
      };

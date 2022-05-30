@@ -25,7 +25,7 @@ export class ProfileService {
       },
       games: {
        connect: {
-
+          id: createProfileDto.gamesId
        }
       },
     };
@@ -42,11 +42,7 @@ export class ProfileService {
               nickname: true,
             },
           },
-          games: {
-            select: {
-              games: true,
-            },
-          },
+          games: true
         },
       })
       .catch(this.handleError);
@@ -57,7 +53,7 @@ export class ProfileService {
       include: {
         user: true,
         genders: true,
-        games: true
+        games: true,
       }
     });
   }
@@ -94,7 +90,12 @@ export class ProfileService {
       },
       games: {
         connect: {
-          
+          id: updateProfileDto.gamesId
+        }
+      },
+      genders: {
+        connect: {
+          name: updateProfileDto.genderName
         }
       }
     };

@@ -8,7 +8,7 @@ export class HomepageService {
   async findAll() {
     const profileData = await this.prisma.profile.findUnique({
       where: {id: ''},
-      
+
     })
 
     const gameData = this.prisma.genders.findMany({
@@ -16,6 +16,14 @@ export class HomepageService {
         gamesGender: true,
       }
     })
+  }
+
+  findOne(id: string) {
+
+  }
+
+  create() {
+
   }
 
 }

@@ -31,10 +31,8 @@ export class GendersService {
     const data: Prisma.GendersCreateInput = {
       name: createGenderDto.name,
       gamesGender: {
-        createMany: {
-          data: createGenderDto.games?.map((createGenderDto) => ({
-            gamesId: createGenderDto.gamesId
-          }))
+        connect: {
+          id: createGenderDto.gamesId
         }
       }
      };
@@ -46,7 +44,7 @@ export class GendersService {
     await this.findById(id);
 
     const data: Prisma.GendersUpdateInput = {
-      name: updateGenderDto.name
+      name: updateGenderDto.name,
      };
 
     return this.prisma.genders.update({
@@ -66,6 +64,11 @@ export class GendersService {
   handleError(error: Error): undefined {
     const errorLines = error.message?.split('\n');
     const lastErrorLine = errorLines[errorLines.length - 1]?.trim();
+
+    if (!lastErrorLine) {
+      console.error(error);
+    }
+
     throw new UnprocessableEntityException(
       lastErrorLine || 'Algum erro ocorreu ao executar a operação',
     );

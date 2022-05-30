@@ -7,10 +7,10 @@ import { UpdateHomepageDto } from './dto/update-homepage.dto';
 export class HomepageController {
   constructor(private readonly homepageService: HomepageService) {}
 
-  @Post()
-  create(@Body() createHomepageDto: CreateHomepageDto) {
-    return this.homepageService.create(createHomepageDto);
-  }
+  // @Post()
+  // create(@Body() createHomepageDto: CreateHomepageDto) {
+  //   return this.homepageService.create(createHomepageDto);
+  // }
 
   @Get()
   findAll() {
@@ -19,7 +19,7 @@ export class HomepageController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.homepageService.findOne(+id);
+    return this.homepageService.findOne(id);
   }
 
   // @Patch(':id')

@@ -32,13 +32,20 @@ export class CreateProfileDto {
   })
   genderName: string;
 
-  @ValidateNested({
-    each: true
-  })
-  @Type(() => createProfileGamesDto)
+  @IsUUID()
   @ApiProperty({
-    description: 'Jogo escolhido',
-    type: [createProfileGamesDto],
+    description: 'Id do jogo a ser adicionado no perfil',
+    example: 'fbe611b7-34b1-4739-8b9e-418765b69942',
   })
-  game: createProfileGamesDto[]
+  gamesId: string;
+
+  // @ValidateNested({
+  //   each: true
+  // })
+  // @Type(() => createProfileGamesDto)
+  // @ApiProperty({
+  //   description: 'Jogo escolhido',
+  //   type: [createProfileGamesDto],
+  // })
+  // game: createProfileGamesDto[]
 }
