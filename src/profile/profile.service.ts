@@ -24,11 +24,9 @@ export class ProfileService {
         },
       },
       games: {
-        createMany: {
-          data: createProfileDto.game.map((createProfileDto) => ({
-            gamesId: createProfileDto.gamesId,
-          })),
-        },
+       connect: {
+
+       }
       },
     };
     return this.prisma.profile
@@ -56,27 +54,11 @@ export class ProfileService {
 
   findAll() {
     return this.prisma.profile.findMany({
-      select: {
-        id: true,
-        title: true,
-        imageUrl: true,
-        user: {
-          select: {
-            name: true,
-            nickname: true,
-          },
-        },
-        games: {
-          select: {
-            games: true,
-          },
-        },
-        _count: {
-          select: {
-            games: true,
-          }
-        }
-      },
+      include: {
+        user: true,
+        genders: true,
+        games: true
+      }
     });
   }
 
@@ -84,13 +66,11 @@ export class ProfileService {
     const record = await this.prisma.profile.findUnique({
       where: {id},
       include: {
-        user: {
-          select: {
-            
-          }
-        }
-      }
-    })
+        user: true,
+        games: true,
+        genders: true,
+      },
+    });
 
     if (!record) {
       throw new NotFoundException("Registro com o Id '${id}' não encontrado.");
@@ -100,41 +80,21 @@ export class ProfileService {
   }
 
   findOne(id: string) {
-    return this.prisma.profile.findUnique({
-      where: { id },
-      include: {
-        user: {
-          select: {
-            name: true,
-            nickname: true,
-          },
-        },
-        games: {
-          select: {
-            games: {
-              select: {
-                title: true,
-                coverImageUrl: true,
-                description: true,
-                year: true,
-                imbScore: true,
-                trailerYoutubeUrl: true,
-                gameplayYouTubeUrl: true,
-              },
-            },
-          },
-        },
-      },
-    });
+    return this.findById(id);
   }
 
   update(id: string, updateProfileDto: UpdateProfileDto) {
     const data: Prisma.ProfileUpdateInput = {
       title: updateProfileDto.title,
       imageUrl: updateProfileDto.imageUrl,
+      user: {
+        connect: {
+          id: updateProfileDto.userId
+        }
+      },
       games: {
         connect: {
-
+          
         }
       }
     };
@@ -145,8 +105,9 @@ export class ProfileService {
     })
   }
 
-  delete(id: string) {
-    return ;
+  async delete(id: string) {
+    await this.findById(id)
+    return this.prisma.profile.delete({where: {id}});
   }
 
   handleError(error: Error): undefined {
