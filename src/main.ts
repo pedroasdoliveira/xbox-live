@@ -13,6 +13,7 @@ async function bootstrap() {
     .setDescription('Aplicação de usúarios')
     .setVersion('1.0.0')
     .addTag('status')
+    .addTag('auth')
     .addTag('users')
     .addTag('genders')
     .addTag('profile')
