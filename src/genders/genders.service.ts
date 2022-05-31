@@ -30,11 +30,6 @@ export class GendersService {
   create(createGenderDto: CreateGenderDto): Promise<Gender> {
     const data: Prisma.GendersCreateInput = {
       name: createGenderDto.name,
-      gamesGender: {
-        connect: {
-          id: createGenderDto.gamesId
-        }
-      }
      };
 
     return this.prisma.genders.create({ data }).catch(this.handleError);
