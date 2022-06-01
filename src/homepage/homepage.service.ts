@@ -6,11 +6,22 @@ export class HomepageService {
   constructor(private readonly prisma: PrismaService) {}
 
   findOne(id: string) {
-    return this.prisma.profile.findFirst({
+    return this.prisma.profile.findUnique({
       where: {id},
       include: {
-        games: true,
+        user: true,
+        games: {
+          include: {
+            genders: {
+              select: {
+                name: true
+              }
+            }
+          }
+        }
       }
-    })
+    });
+
+    
   }
 }
