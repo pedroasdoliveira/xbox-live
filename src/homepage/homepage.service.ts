@@ -5,11 +5,15 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class HomepageService {
   constructor(private readonly prisma: PrismaService) {}
 
-  findOne(id: string) {
-    return this.prisma.profile.findUnique({
+  async findOne(id: string) {
+     const profileData = await this.prisma.profile.findUnique({
       where: {id},
       include: {
-        user: true,
+        user: {
+          select: {
+            nickname: true,
+          }
+        },
         games: {
           include: {
             genders: {
@@ -22,6 +26,30 @@ export class HomepageService {
       }
     });
 
-    
+    const allGenres = await this.prisma.genders.findMany({
+      include: {
+        gamesGender: {
+          select: {
+            title: true,
+          }
+        }
+      }
+    });
+
+    const allGames = await this.prisma.games.findMany({
+      select: {
+        title: true,
+      }
+    })
+
+    allGenres.map((genrer) => {
+      const gamesPerGenrer = []
+
+      
+    })
+
+    return {
+      profileData
+    }
   }
 }
