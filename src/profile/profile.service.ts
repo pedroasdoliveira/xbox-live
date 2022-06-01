@@ -18,11 +18,6 @@ export class ProfileService {
       },
       title: createProfileDto.title,
       imageUrl: createProfileDto.imageUrl,
-      genders: {
-        connect: {
-          name: createProfileDto.genderName,
-        },
-      },
       games: {
        connect: {
           id: createProfileDto.gamesId
@@ -36,12 +31,7 @@ export class ProfileService {
           id: true,
           title: true,
           imageUrl: true,
-          user: {
-            select: {
-              name: true,
-              nickname: true,
-            },
-          },
+          user: true,
           games: true
         },
       })
@@ -52,7 +42,6 @@ export class ProfileService {
     return this.prisma.profile.findMany({
       include: {
         user: true,
-        genders: true,
         games: true,
       }
     });
@@ -64,7 +53,6 @@ export class ProfileService {
       include: {
         user: true,
         games: true,
-        genders: true,
       },
     });
 
@@ -91,11 +79,6 @@ export class ProfileService {
       games: {
         connect: {
           id: updateProfileDto.gamesId
-        }
-      },
-      genders: {
-        connect: {
-          name: updateProfileDto.genderName
         }
       }
     };

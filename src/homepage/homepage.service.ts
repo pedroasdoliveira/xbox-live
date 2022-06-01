@@ -5,25 +5,12 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class HomepageService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll() {
-    const profileData = await this.prisma.profile.findUnique({
-      where: {id: ''},
-
-    })
-
-    const gameData = this.prisma.genders.findMany({
+  findOne(id: string) {
+    return this.prisma.profile.findFirst({
+      where: {id},
       include: {
-        gamesGender: true,
+        games: true,
       }
     })
   }
-
-  findOne(id: string) {
-
-  }
-
-  create() {
-
-  }
-
 }

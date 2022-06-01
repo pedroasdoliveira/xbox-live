@@ -16,8 +16,8 @@ export class GamesService {
   findAll(): Promise<Game[]> {
     return this.prisma.games.findMany({
       include: {
-        genders: true
-      }
+        genders: true,
+      },
     });
   }
 
@@ -27,11 +27,11 @@ export class GamesService {
       include: {
         genders: {
           select: {
-            name: true
-          }
-        }
-      }
-     });
+            name: true,
+          },
+        },
+      },
+    });
 
     if (!record) {
       throw new NotFoundException("Registro com o Id '${id}' não encontrado.");
@@ -54,22 +54,27 @@ export class GamesService {
       gameplayYouTubeUrl: createGameDto.gameplayYouTubeUrl,
       trailerYoutubeUrl: createGameDto.trailerYoutubeUrl,
       genders: {
-        connect: {
-          name: createGameDto.genreGame
-        }
-      }
+        connectOrCreate: {
+          where: { name: createGameDto.genreGame },
+          create: {
+            name: createGameDto.genreGame,
+          },
+        },
+      },
     };
 
-    return await this.prisma.games.create({
-      data,
-      include: {
-        genders: true
-      }
-     }).catch(this.handleError);
+    return await this.prisma.games
+      .create({
+        data,
+        include: {
+          genders: true,
+        },
+      })
+      .catch(this.handleError);
   }
 
   async update(id: string, updateGameDto: UpdateGameDto): Promise<Game> {
-    const actualGame =  await this.findById(id);
+    const actualGame = await this.findById(id);
 
     const data: Prisma.GamesUpdateInput = {
       title: updateGameDto.title,
@@ -81,34 +86,41 @@ export class GamesService {
       trailerYoutubeUrl: updateGameDto.trailerYoutubeUrl,
       genders: {
         disconnect: {
-          name: actualGame.gender[0].name
+          name: actualGame.gender[0].name,
         },
         connect: {
-          name: updateGameDto.genreGame
-        }
-      }
-     };
+          name: updateGameDto.genreGame,
+        },
+      },
+    };
 
     return this.prisma.games.update({
       where: { id },
       data,
       include: {
-        genders: true
-      }
+        genders: true,
+      },
     });
   }
 
   async delete(id: string) {
     await this.findById(id);
 
-    await this.prisma.games.delete({
-      where: { id },
-    }).catch(this.handleError);
+    await this.prisma.games
+      .delete({
+        where: { id },
+      })
+      .catch(this.handleError);
   }
 
   handleError(error: Error): undefined {
     const errorLines = error.message?.split('\n');
     const lastErrorLine = errorLines[errorLines.length - 1]?.trim();
+
+    if (!lastErrorLine) {
+      console.error(error);
+    }
+
     throw new UnprocessableEntityException(
       lastErrorLine || 'Algum erro ocorreu ao executar a operação',
     );
