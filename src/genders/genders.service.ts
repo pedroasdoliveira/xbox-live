@@ -10,11 +10,28 @@ export class GendersService {
   constructor(private readonly prisma: PrismaService) {}
 
   findAll(): Promise<Gender[]> {
-    return this.prisma.genders.findMany();
+    return this.prisma.genders.findMany({
+      include: {
+        gamesGender: {
+          select: {
+            title: true,
+          }
+        }
+      }
+    });
   }
 
   async findById(id: string): Promise<Gender> {
-    const record = await this.prisma.genders.findUnique({ where: { id } });
+    const record = await this.prisma.genders.findUnique({
+      where: { id },
+      include: {
+        gamesGender: {
+          select: {
+            title: true,
+          }
+        }
+      }
+     });
 
     if (!record) {
       throw new NotFoundException(`Registro com o Id '${id}' não encontrado.`);
