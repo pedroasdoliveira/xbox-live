@@ -31,25 +31,14 @@ export class HomepageService {
         gamesGender: {
           select: {
             title: true,
-          }
-        }
-      }
+          },
+        },
+      },
     });
 
-    const allGames = await this.prisma.games.findMany({
-      select: {
-        title: true,
-      }
-    })
-
-    allGenres.map((genrer) => {
-      const gamesPerGenrer = []
-
-      
-    })
-
     return {
-      profileData
+      profileData,
+      allGenres,
     }
   }
 }
