@@ -18,11 +18,6 @@ export class ProfileService {
       },
       title: createProfileDto.title,
       imageUrl: createProfileDto.imageUrl,
-      games: {
-       connect: {
-          id: createProfileDto.gamesId
-       }
-      },
     };
     return this.prisma.profile
       .create({
@@ -32,7 +27,6 @@ export class ProfileService {
           title: true,
           imageUrl: true,
           user: true,
-          games: true
         },
       })
       .catch(this.handleError);
