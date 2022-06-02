@@ -20,6 +20,9 @@ async function bootstrap() {
     .addTag('profile')
     .addTag('homepage')
     .addBasicAuth()
+    .addBearerAuth({
+      type: 'http', scheme: 'bearer', bearerFormat: 'JWT', in: 'header'
+    }, 'JWT')
     .build()
 
   const document = SwaggerModule.createDocument(app, config);
