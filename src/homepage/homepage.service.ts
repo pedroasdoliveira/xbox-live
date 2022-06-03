@@ -8,14 +8,21 @@ export class HomepageService {
   async findOne(id: string) {
      const profileData = await this.prisma.profile.findUnique({
       where: {id},
-      include: {
+      select: {
+        title: true,
+        imageUrl: true,
         user: {
           select: {
             nickname: true,
+            isAdmin: true,
           }
         },
         games: {
-          include: {
+          select: {
+            title: true,
+            coverImageUrl: true,
+            description: true,
+            imbScore: true,
             genders: {
               select: {
                 name: true
@@ -27,13 +34,15 @@ export class HomepageService {
     });
 
     const allGenres = await this.prisma.genders.findMany({
-      include: {
+      select: {
+        name: true,
         gamesGender: {
           select: {
             title: true,
-          },
-        },
-      },
+            coverImageUrl: true,
+          }
+        }
+      }
     });
 
     return {
