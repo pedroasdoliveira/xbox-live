@@ -26,6 +26,7 @@ model Games {
 
   genders Genders[]
   profile Profile[]
+  favorites FavoriteGames[]
 }
 
 model Genders {
@@ -64,6 +65,20 @@ model Profile {
   userId String @map("user_id")
 
   games Games[]
+  favorites FavoriteGames[]
+
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+}
+
+model FavoriteGames {
+  id String @id @default(uuid())
+
+  profile Profile @relation(fields: [profileId], references: [id])
+  profileId String @map("profile_id")
+
+  game Games @relation(fields: [gameId], references: [id])
+  gameId String @map("game_id")
 
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
