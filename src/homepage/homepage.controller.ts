@@ -9,8 +9,6 @@ export class HomepageController {
   constructor(private readonly homepageService: HomepageService) {}
 
   @Get(':id')
-  @UseGuards(AuthGuard())
-  @ApiBearerAuth('JWT')
   @ApiOperation({
     summary: 'Pagina principal com lista de jogos favoritos listador por gêneros.'
   })
