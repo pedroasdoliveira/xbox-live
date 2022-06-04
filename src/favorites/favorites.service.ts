@@ -5,8 +5,8 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class FavoritesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  findAll() {
-      return
+  findAll(id: string) {
+      return 
   }
 
 }
