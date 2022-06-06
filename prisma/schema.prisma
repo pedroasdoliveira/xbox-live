@@ -65,7 +65,7 @@ model Profile {
   userId String @map("user_id")
 
   games Games[]
-  favorites FavoriteGames[]
+  favoriteGames FavoriteGames?
 
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
