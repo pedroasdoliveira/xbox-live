@@ -52,7 +52,7 @@ export class CreateUserDto {
   @MaxLength(15)
   @ApiProperty({
     description: 'CPF do usuário',
-    example: 48071261564,
+    example: '48071261564',
   })
   cpf: string;
 
