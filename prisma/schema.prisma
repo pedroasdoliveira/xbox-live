@@ -47,7 +47,7 @@ model User {
   email    String   @unique
   password String
   cpf      String   @unique
-  isAdmin  Boolean?
+  isAdmin  Boolean  @default(false)
 
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
@@ -75,10 +75,9 @@ model FavoriteGames {
   id String @id @default(uuid())
 
   profile Profile @relation(fields: [profileId], references: [id])
-  profileId String @map("profile_id")
+  profileId String @map("profile_id") @unique
 
-  game Games @relation(fields: [gameId], references: [id])
-  gameId String @map("game_id")
+  games Games[]
 
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt

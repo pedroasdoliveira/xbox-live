@@ -57,8 +57,5 @@ export class CreateUserDto {
   cpf: string;
 
   @IsBoolean()
-  @ApiProperty({
-    example: false,
-  })
   isAdmin: boolean;
 }
