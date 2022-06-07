@@ -1,7 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import {
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { UpdateFavoritesDto } from './dto/update-favorites.dto';
 
 @Injectable()
 export class FavoritesService {
@@ -28,7 +30,7 @@ export class FavoritesService {
                 coverImageUrl: true,
                 description: true,
                 imbScore: true,
-              }
+              },
             },
             id: true,
           },
@@ -42,8 +44,8 @@ export class FavoritesService {
     return record;
   }
 
-  async addFavorites(profileId: string, gameId: string) {
-    const user = await this.findAll(profileId);
+  async addFavorites(id: string, gameId: string) {
+    const user = await this.findAll(id);
     let favoriteGame = false;
     user.favoriteGames.games.map((game) => {
       if (gameId === game.id) {
@@ -52,31 +54,48 @@ export class FavoritesService {
     });
 
     if (favoriteGame) {
-      return await this.prisma.favoriteGames.update({
-        where: {
-          id: user.favoriteGames.id,
-        },
-        data: {
-          games: {
-            disconnect: {
-              id: gameId,
+      return await this.prisma.favoriteGames
+        .update({
+          where: {
+            id: user.favoriteGames.id,
+          },
+          data: {
+            games: {
+              disconnect: {
+                id: gameId,
+              },
             },
           },
-        },
-      });
+        })
+        .catch(this.handleError);
     } else {
-      return await this.prisma.favoriteGames.update({
-        where: {
-          id: user.favoriteGames.id,
-        },
-        data: {
-          games: {
-            connect: {
-              id: gameId,
+      return await this.prisma.favoriteGames
+        .update({
+          where: {
+            id: user.favoriteGames.id,
+          },
+          data: {
+            games: {
+              connect: {
+                id: gameId,
+              },
             },
           },
-        },
-      });
+        })
+        .catch(this.handleError);
     }
+  }
+
+  handleError(error: Error): undefined {
+    const errorLines = error.message?.split('\n');
+    const lastErrorLine = errorLines[errorLines.length - 1]?.trim();
+
+    if (!lastErrorLine) {
+      console.error(error);
+    }
+
+    throw new UnprocessableEntityException(
+      lastErrorLine || `Algum erro inesperado ocorreu`,
+    );
   }
 }

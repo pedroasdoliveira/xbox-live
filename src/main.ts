@@ -24,6 +24,7 @@ async function bootstrap() {
     .addTag('genders')
     .addTag('profile')
     .addTag('homepage')
+    .addTag('favorites')
     .addBasicAuth()
     .addBearerAuth({
       type: 'http', scheme: 'bearer', bearerFormat: 'JWT', in: 'header'

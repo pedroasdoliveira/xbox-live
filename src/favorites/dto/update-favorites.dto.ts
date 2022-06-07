@@ -1,18 +1,15 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString } from "class-validator";
 
 export class UpdateFavoritesDto {
-  @IsString()
   @ApiProperty({
     description: 'id do game',
-    example: ''
+    example: '3b6586ae-0e9d-49df-8d16-6f9140e7ce0d'
   })
   gameId?: string
 
-  @IsString()
   @ApiProperty({
     description: 'id do game para adicionar ou remover da lista de favoritos',
-    example: ''
+    example: '3b6586ae-0e9d-49df-8d16-6f9140e7ce0d'
   })
   favoriteGameId?: string
 }

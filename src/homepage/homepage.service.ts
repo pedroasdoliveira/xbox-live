@@ -6,8 +6,8 @@ export class HomepageService {
   constructor(private readonly prisma: PrismaService) {}
 
   async findOne(id: string) {
-     const profileData = await this.prisma.profile.findUnique({
-      where: {id},
+    const profileData = await this.prisma.profile.findUnique({
+      where: { id },
       select: {
         title: true,
         imageUrl: true,
@@ -15,7 +15,24 @@ export class HomepageService {
           select: {
             nickname: true,
             isAdmin: true,
-          }
+          },
+        },
+        favoriteGames: {
+          select: {
+            games: {
+              select: {
+                title: true,
+                coverImageUrl: true,
+                description: true,
+                imbScore: true,
+                genders: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+          },
         },
         games: {
           select: {
@@ -25,29 +42,39 @@ export class HomepageService {
             imbScore: true,
             genders: {
               select: {
-                name: true
-              }
-            }
-          }
-        }
-      }
+                name: true,
+              },
+            },
+          },
+        },
+      },
     });
 
-    const allGenres = await this.prisma.genders.findMany({
-      select: {
-        name: true,
-        gamesGender: {
-          select: {
-            title: true,
-            coverImageUrl: true,
-          }
+    const listGames = profileData.games;
+    const orderedGames = [];
+
+    const allGenres = await this.prisma.genders.findMany();
+    allGenres.map((genrer) => {
+      const gamesPerGenrer = [];
+
+      listGames.map((game) => {
+        if (game.genders[0].name === genrer.name) {
+          gamesPerGenrer.push(game.title);
         }
+      });
+      const genrerObj = {
+        genrer: genrer.name,
+        title: gamesPerGenrer,
+      };
+
+      if (gamesPerGenrer.length !== 0) {
+        orderedGames.push(genrerObj)
       }
     });
 
     return {
       profileData,
-      allGenres,
-    }
+      genrerList: orderedGames,
+    };
   }
 }
