@@ -5,6 +5,8 @@ import { UpdateGenderDto } from './dto/update-gender.dto';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Gender } from './entities/gender.entity';
 import { AuthGuard } from '@nestjs/passport';
+import { LoggedUser } from 'src/auth/logged-user.decorator';
+import { User } from 'src/User/entities/user.entities';
 
 @ApiTags('genders')
 @UseGuards(AuthGuard())
@@ -17,8 +19,8 @@ export class GendersController {
   @ApiOperation({
     summary: 'criar gênero de jogo'
   })
-  create(@Body() createGenderDto: CreateGenderDto): Promise<Gender> {
-    return this.gendersService.create(createGenderDto);
+  create(@LoggedUser() user: User, @Body() createGenderDto: CreateGenderDto): Promise<Gender> {
+    return this.gendersService.create(createGenderDto, user);
   }
 
   @Get()
@@ -41,8 +43,8 @@ export class GendersController {
   @ApiOperation({
     summary: 'Editar gênero de jogo por Id'
   })
-  update(@Param('id') id: string, @Body() updateGenderDto: UpdateGenderDto): Promise<Gender> {
-    return this.gendersService.update(id, updateGenderDto);
+  update(@LoggedUser() user: User, @Param('id') id: string, @Body() updateGenderDto: UpdateGenderDto): Promise<Gender> {
+    return this.gendersService.update(id, updateGenderDto, user);
   }
 
   @Delete(':id')
@@ -50,7 +52,7 @@ export class GendersController {
   @ApiOperation({
     summary: 'Remover gênero de jogo'
   })
-  delete(@Param('id') id: string) {
-    this.gendersService.delete(id);
+  delete(@LoggedUser() user: User, @Param('id') id: string) {
+    this.gendersService.delete(id, user);
   }
 }

@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
   UnprocessableEntityException,
 } from '@nestjs/common';
 // --------------- Import rotes -----------------
@@ -15,19 +16,25 @@ import { cpf } from 'cpf-cnpj-validator';
 @Injectable()
 export class UserService {
   private userSelect = {
-    id: true,
+    id: false,
     name: true,
     nickname: true,
     email: true,
     password: false,
-    cpf: true,
+    cpf: false,
     isAdmin: false,
   }
 
   constructor(private readonly prisma: PrismaService) {}
 
-  findAll(): Promise<User[]> {
-    return this.prisma.user.findMany();
+  findAll(user: User): Promise<User[]> {
+    if (user.isAdmin) {
+      return this.prisma.user.findMany();
+    } else {
+      throw new UnauthorizedException(
+        'Apenas Administradores tem permissão de visualizar as informações de outros usuários!',
+      );
+    }
   }
 
   async findById(id: string): Promise<User> {

@@ -34,9 +34,15 @@ export class ProfileService {
 
   findAll() {
     return this.prisma.profile.findMany({
-      include: {
-        user: true,
-        games: true,
+      select: {
+        user: {
+          select: {
+            nickname: true,
+            email: true,
+            isAdmin: true,
+          }
+        },
+        games: true
       }
     });
   }
@@ -45,7 +51,6 @@ export class ProfileService {
     const record = await this.prisma.profile.findUnique({
       where: {id},
       include: {
-        user: true,
         games: true,
       },
     });

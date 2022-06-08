@@ -1,6 +1,12 @@
-import { Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { User } from 'src/User/entities/user.entities';
 import { CreateGenderDto } from './dto/create-gender.dto';
 import { UpdateGenderDto } from './dto/update-gender.dto';
 import { Gender } from './entities/gender.entity';
@@ -15,9 +21,9 @@ export class GendersService {
         gamesGender: {
           select: {
             title: true,
-          }
-        }
-      }
+          },
+        },
+      },
     });
   }
 
@@ -28,10 +34,10 @@ export class GendersService {
         gamesGender: {
           select: {
             title: true,
-          }
-        }
-      }
-     });
+          },
+        },
+      },
+    });
 
     if (!record) {
       throw new NotFoundException(`Registro com o Id '${id}' não encontrado.`);
@@ -44,33 +50,57 @@ export class GendersService {
     return this.findById(id);
   }
 
-  create(createGenderDto: CreateGenderDto): Promise<Gender> {
-    const data: Prisma.GendersCreateInput = {
-      name: createGenderDto.name,
-     };
+  create(createGenderDto: CreateGenderDto, user: User): Promise<Gender> {
+    if (user.isAdmin) {
+      const data: Prisma.GendersCreateInput = {
+        name: createGenderDto.name,
+      };
 
-    return this.prisma.genders.create({ data }).catch(this.handleError);
+      return this.prisma.genders.create({ data }).catch(this.handleError);
+    } else {
+      throw new UnauthorizedException(
+        'Usuário não tem permissão. Caso isso esteja errado, contate o ADMIN!',
+      );
+    }
   }
 
-  async update(id: string, updateGenderDto: UpdateGenderDto): Promise<Gender> {
-    await this.findById(id);
+  async update(
+    id: string,
+    updateGenderDto: UpdateGenderDto,
+    user: User,
+  ): Promise<Gender> {
+    if (user.isAdmin) {
+      await this.findById(id);
 
-    const data: Prisma.GendersUpdateInput = {
-      name: updateGenderDto.name,
-     };
+      const data: Prisma.GendersUpdateInput = {
+        name: updateGenderDto.name,
+      };
 
-    return this.prisma.genders.update({
-      where: { id },
-      data,
-    });
+      return this.prisma.genders.update({
+        where: { id },
+        data,
+      });
+    } else {
+      throw new UnauthorizedException(
+        'Usuário não tem permissão. Caso isso esteja errado, contate o ADMIN!',
+      );
+    }
   }
 
-  async delete(id: string) {
-    await this.findById(id);
+  async delete(id: string, user: User) {
+    if (user.isAdmin) {
+      await this.findById(id);
 
-    await this.prisma.genders.delete({
-      where: {id},
-    }).catch(this.handleError)
+      await this.prisma.genders
+        .delete({
+          where: { id },
+        })
+        .catch(this.handleError);
+    } else {
+      throw new UnauthorizedException(
+        'Usuário não tem permissão. Caso isso esteja errado, contate o ADMIN!',
+      );
+    }
   }
 
   handleError(error: Error): undefined {

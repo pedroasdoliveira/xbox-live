@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { LoggedUser } from 'src/auth/logged-user.decorator';
 // ---------------- imports rotes ---------------------
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -29,8 +30,8 @@ export class UserController {
   @ApiOperation({
     summary: 'Listar usúarios',
   })
-  findAll(): Promise<User[]> {
-    return this.userService.findAll();
+  findAll(@LoggedUser() user: User): Promise<User[]> {
+    return this.userService.findAll(user);
   }
 
   @Get(':id')
