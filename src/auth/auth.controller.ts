@@ -8,7 +8,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBasicAuth, ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/User/entities/user.entities';
 import { AuthService } from './auth.service';
 import { LoginResponseDto } from './dto/login-response.dto';
@@ -35,6 +35,7 @@ export class AuthController {
     summary: 'Retornar o usuário autentificado no momento!'
   })
   @ApiBearerAuth('JWT')
+  @ApiBasicAuth('Login')
   profile(@LoggedUser() user: User) {
     return user;
   }
