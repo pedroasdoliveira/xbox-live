@@ -56,6 +56,5 @@ export class CreateUserDto {
   })
   cpf: string;
 
-  @IsBoolean()
   isAdmin: boolean;
 }
