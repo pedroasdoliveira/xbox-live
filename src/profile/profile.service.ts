@@ -35,6 +35,9 @@ export class ProfileService {
   findAll() {
     return this.prisma.profile.findMany({
       select: {
+        id: true,
+        title: true,
+        imageUrl: true,
         user: {
           select: {
             nickname: true,

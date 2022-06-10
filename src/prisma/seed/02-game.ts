@@ -19,6 +19,15 @@ export const games: Prisma.GamesCreateInput[] = [
     trailerYoutubeUrl: 'https://www.youtube.com/watch?v=h_Fy2ke1lR4',
     gameplayYouTubeUrl: 'https://www.youtube.com/watch?v=fWJSzIZIowI'
   },
+  {
+    title: 'Halo Infinite',
+    coverImageUrl: 'https://upload.wikimedia.org/wikipedia/pt/d/d1/Halo_Infinite_capa.png',
+    description: 'Excelente jogo exclusivo da Microsoft contanto a historia do Master Chef',
+    year: 2021,
+    imbScore: 4,
+    trailerYoutubeUrl: 'https://www.youtube.com/watch?v=PyMlV5_HRWk',
+    gameplayYouTubeUrl: 'https://www.youtube.com/watch?v=YoWhmo3W2wc',
+  }
 ]
 
 export const game = async (prisma: PrismaClient) => {
