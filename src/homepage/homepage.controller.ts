@@ -4,13 +4,13 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HomepageService } from './homepage.service';
 
 @ApiTags('homepage')
-@UseGuards(AuthGuard())
-@ApiBearerAuth('JWT')
 @Controller('homepage')
 export class HomepageController {
   constructor(private readonly homepageService: HomepageService) {}
 
   @Get(':id')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth('JWT')
   @ApiOperation({
     summary: 'Pagina principal com lista de jogos favoritos listador por gêneros.'
   })
