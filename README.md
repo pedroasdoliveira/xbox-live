@@ -22,52 +22,49 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## Nome do Projeto
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### Xbox Live
 
-## Installation
+Projeto Back-End utilizando Nest.js e API Restful, com o objetivo de criar uma replica sobre o sistema de assinatura da Xbox Live, com o sistema de cadastro de jogos, gêneros, usuários e perfis individuais.
 
-```bash
-$ npm install
-```
+## Pré-requisitos
 
-## Running the app
+É nessecario que a versão do seu Node.js esteja atualizado acima da versão 9.
 
-```bash
-# development
-$ npm run start
+## Instalação
 
-# watch mode
-$ npm run start:dev
+-> Pra clonar esse repositorio em sua maquina utilize o comando: ``git clone [Url do seu repositório]``, ou caso esteja utilizando o Github Desktop apenas clona o projeto utilizando a URL do repositorio
 
-# production mode
-$ npm run start:prod
-```
+-> Criar uma pasta para os arquivos e executar o comando: ``npm install``
 
-## Test
+-> (Opcional) Conectar o projeto com um link de algum banco de dados. Logo em seguida dar o comando: ``npx prisma db push``
+## Execução do projeto
 
-```bash
-# unit tests
-$ npm run test
+-> Dar o comando: ``npm run build`` pra gerar a build de sua aplicação
 
-# e2e tests
-$ npm run test:e2e
+-> Depois dar o comando: ``npm run start:dev`` para rodar sua aplicação
 
-# test coverage
-$ npm run test:cov
-```
+## Teste
 
-## Support
+-> Teste unitário: ``npm run test``
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+-> Teste de segurança: ``npm run test:cov``
 
-## Stay in touch
+## Links
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Linkedln: 'https://www.linkedin.com/in/pedro-augusto-silva-de-oliveira/'
 
-## License
+Discord: 'Pedro_oliver#6046'
+## Autor
+
+- Author - Pedro Oliveira
+- Deploy da API - 'https://xbox-live-production.up.railway.app'
+
+## Licensa
 
 Nest is [MIT licensed](LICENSE).
+
+## Agradecimento
+
+Gostaria de agradecer a Blue EdTech, ao Vinícius Oliveira Gonçalves (violigon) e ao Kellbber pelo auxilio do projeto.
