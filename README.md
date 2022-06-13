@@ -61,7 +61,7 @@ Discord: 'Pedro_oliver#6046'
 - Author - Pedro Oliveira
 - Deploy da API - 'https://xbox-live-production.up.railway.app'
 
-## Licensa
+## Licença
 
 Nest is [MIT licensed](LICENSE).
 
