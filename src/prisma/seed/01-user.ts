@@ -26,6 +26,14 @@ export const users: Prisma.UserCreateInput[] = [
     password: 'Gab@6367#Roblox',
     cpf: '119.116.050-54',
     isAdmin: false,
+  },
+  {
+    name: 'Vini',
+    nickname: 'Violigon',
+    email: 'Violigon@gmail.com',
+    password: 'Vio#255CODE*',
+    cpf: '363.155.000-64',
+    isAdmin: false,
   }
 ]
 

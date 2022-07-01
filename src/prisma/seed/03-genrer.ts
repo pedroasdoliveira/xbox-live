@@ -16,6 +16,15 @@ export const genrers: Prisma.GendersCreateInput[] = [
   {
     name: 'Aventura',
   },
+  {
+    name: 'Suspense',
+  },
+  {
+    name: 'Fantasia',
+  },
+  {
+    name: 'FPS'
+  }
 ];
 
 export const genrer = async (prisma: PrismaClient) => {
