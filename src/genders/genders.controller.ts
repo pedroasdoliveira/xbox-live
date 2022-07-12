@@ -1,11 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
 import { GendersService } from './genders.service';
 import { CreateGenderDto } from './dto/create-gender.dto';
 import { UpdateGenderDto } from './dto/update-gender.dto';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Gender } from './entities/gender.entity';
+import { AuthGuard } from '@nestjs/passport';
+import { LoggedUser } from 'src/auth/logged-user.decorator';
+import { User } from 'src/User/entities/user.entities';
 
 @ApiTags('genders')
+@UseGuards(AuthGuard())
+@ApiBearerAuth('JWT')
 @Controller('genders')
 export class GendersController {
   constructor(private readonly gendersService: GendersService) {}
@@ -14,8 +19,8 @@ export class GendersController {
   @ApiOperation({
     summary: 'criar gênero de jogo'
   })
-  create(@Body() createGenderDto: CreateGenderDto): Promise<Gender> {
-    return this.gendersService.create(createGenderDto);
+  create(@LoggedUser() user: User, @Body() createGenderDto: CreateGenderDto): Promise<Gender> {
+    return this.gendersService.create(createGenderDto, user);
   }
 
   @Get()
@@ -38,8 +43,8 @@ export class GendersController {
   @ApiOperation({
     summary: 'Editar gênero de jogo por Id'
   })
-  update(@Param('id') id: string, @Body() updateGenderDto: UpdateGenderDto): Promise<Gender> {
-    return this.gendersService.update(id, updateGenderDto);
+  update(@LoggedUser() user: User, @Param('id') id: string, @Body() updateGenderDto: UpdateGenderDto): Promise<Gender> {
+    return this.gendersService.update(id, updateGenderDto, user);
   }
 
   @Delete(':id')
@@ -47,7 +52,7 @@ export class GendersController {
   @ApiOperation({
     summary: 'Remover gênero de jogo'
   })
-  delete(@Param('id') id: string) {
-    this.gendersService.delete(id);
+  delete(@LoggedUser() user: User, @Param('id') id: string) {
+    this.gendersService.delete(id, user);
   }
 }

@@ -1,5 +1,18 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { LoggedUser } from 'src/auth/logged-user.decorator';
 // ---------------- imports rotes ---------------------
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -12,14 +25,18 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth('JWT')
   @ApiOperation({
     summary: 'Listar usúarios',
   })
-  findAll(): Promise<User[]> {
-    return this.userService.findAll();
+  findAll(@LoggedUser() user: User): Promise<User[]> {
+    return this.userService.findAll(user);
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth('JWT')
   @ApiOperation({
     summary: 'Visualizar usúario',
   })
@@ -36,6 +53,8 @@ export class UserController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth('JWT')
   @ApiOperation({
     summary: 'Editar informações do usúario',
   })
@@ -44,9 +63,11 @@ export class UserController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard())
+  @ApiBearerAuth('JWT')
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({
-    summary: 'Deletar Usúario'
+    summary: 'Deletar Usúario',
   })
   delete(@Param('id') id: string) {
     this.userService.delete(id);

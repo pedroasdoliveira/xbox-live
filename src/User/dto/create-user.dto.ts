@@ -1,35 +1,60 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsNumber, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsNumber,
+  IsString,
+  Matches,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 export class CreateUserDto {
   @IsString()
   @ApiProperty({
-    description: 'Usúario',
+    description: 'Usuário',
     example: 'Lazaro',
   })
   name: string;
 
   @IsString()
   @ApiProperty({
+    description: 'Nickname do usuário',
+    example: 'lazaroKiller',
+  })
+  nickname: string;
+
+  @IsString()
+  @ApiProperty({
+    description: 'Email do usuário',
     example: 'LazaroKiller@hotmail.com',
   })
   email: string;
 
   @IsString()
+  @MinLength(6)
+  @Matches(/((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
+    message: 'Senha muito fraca',
+  })
   @ApiProperty({
-    example: 'Viado123',
+    description: 'Senha de acesso do usuário',
+    example: 'Lzra@16376',
   })
   password: string;
 
-  @IsNumber()
+  @IsString()
   @ApiProperty({
-    example: 5556338503394,
+    description: 'A confirmação da senha deve ser igual a senha de login',
+    example: 'Lzra@16376',
   })
-  cpf: number;
+  confirmPassword: string;
 
-  @IsBoolean()
+  @IsString()
+  @MaxLength(15)
   @ApiProperty({
-    example: false,
+    description: 'CPF do usuário',
+    example: '48071261564',
   })
-  isAdmin?: boolean;
+  cpf: string;
+
+  isAdmin: boolean;
 }

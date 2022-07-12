@@ -23,6 +23,10 @@ model Games {
 
   createAt DateTime @default(now()) @map("created_at")
   updateAt DateTime @updatedAt @map("updated_at")
+
+  genders Genders[]
+  profile Profile[]
+  favorites FavoriteGames[]
 }
 
 model Genders {
@@ -32,15 +36,48 @@ model Genders {
 
   createAt DateTime @default(now()) @map("created_at")
   updateAt DateTime @updatedAt @map("updated_at")
+
+  gamesGender Games[]
 }
 
 model User {
   id       String   @id @default(uuid())
-  name     String   @unique
+  name     String
+  nickname String   @unique
   email    String   @unique
   password String
-  cpf      Int      @unique
-  isAdmin  Boolean?
+  cpf      String   @unique
+  isAdmin  Boolean  @default(false)
+
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+
+  profiles Profile[]
+}
+
+model Profile {
+  id String @id @default(uuid())
+
+  title String
+  imageUrl String
+
+  user User @relation(fields: [userId], references: [id])
+  userId String @map("user_id")
+
+  games Games[]
+  favoriteGames FavoriteGames?
+
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+}
+
+model FavoriteGames {
+  id String @id @default(uuid())
+
+  profile Profile @relation(fields: [profileId], references: [id])
+  profileId String @map("profile_id") @unique
+
+  games Games[]
 
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
