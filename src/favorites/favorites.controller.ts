@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, Patch, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post, Put, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CreateFavoritesDto } from './dto/create-favorite.dto';
 import { UpdateFavoritesDto } from './dto/update-favorites.dto';
 import { FavoritesService } from './favorites.service';
 
@@ -17,6 +18,14 @@ export class FavoritesController {
   })
   findAll(@Param('id') id: string ) {
     return this.favoritesService.findAll(id)
+  }
+
+  @Put('id')
+  @ApiOperation({
+    summary: 'Adicionar jogos na lista de favoritos'
+  })
+  createFavoriteGame(@Param('id') id: string, @Body() dto: CreateFavoritesDto) {
+    return this.favoritesService.createFavorite(id, dto)
   }
 
   @Patch(':id')

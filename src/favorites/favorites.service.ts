@@ -3,7 +3,9 @@ import {
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateFavoritesDto } from './dto/create-favorite.dto';
 
 @Injectable()
 export class FavoritesService {
@@ -44,11 +46,26 @@ export class FavoritesService {
     return record;
   }
 
+  createFavorite(id: string, dto: CreateFavoritesDto) {
+    const data: Prisma.ProfileUpdateInput = {
+      favoriteGames: {
+        create: {
+          id: dto.gameId
+        }
+      }
+    };
+
+    return this.prisma.profile.update({
+      where: {id},
+      data,
+    })
+  }
+
   async addFavorites(id: string, gameId: string) {
     const user = await this.findAll(id);
     let favoriteGame = false;
     user.favoriteGames.games.map((game) => {
-      if (gameId === game.id) {
+      if (gameId === game.id || game === null) {
         favoriteGame = true;
       }
     });
