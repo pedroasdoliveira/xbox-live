@@ -46,60 +46,61 @@ export class FavoritesService {
     return record;
   }
 
-  createFavorite(id: string, dto: CreateFavoritesDto) {
-    const data: Prisma.ProfileUpdateInput = {
-      favoriteGames: {
-        create: {
-          id: dto.gameId
+  async addFavoriteOrRemove(profileId: string, gameId: string) {
+    const user = await this.findAll(profileId);
+    let favoritedGame = false;
+
+    if (user.favoriteGames != null) {
+      user.favoriteGames.games.map((game) => {
+        if (gameId === game.id) {
+          favoritedGame = true;
         }
-      }
-    };
-
-    return this.prisma.profile.update({
-      where: {id},
-      data,
-    })
-  }
-
-  async addFavorites(id: string, gameId: string) {
-    const user = await this.findAll(id);
-    let favoriteGame = false;
-    user.favoriteGames.games.map((game) => {
-      if (gameId === game.id || game === null) {
-        favoriteGame = true;
-      }
-    });
-
-    if (favoriteGame) {
-      return await this.prisma.favoriteGames
-        .update({
-          where: {
-            id: user.favoriteGames.id,
-          },
-          data: {
-            games: {
-              disconnect: {
-                id: gameId,
-              },
+      });
+    }
+    else {
+      return this.prisma.favoriteGames.create({
+        data: {
+          profile: {
+            connect: {
+              id: profileId,
             },
           },
-        })
-        .catch(this.handleError);
-    } else {
-      return await this.prisma.favoriteGames
-        .update({
-          where: {
-            id: user.favoriteGames.id,
-          },
-          data: {
-            games: {
-              connect: {
-                id: gameId,
-              },
+          games: {
+            connect: {
+              id: gameId,
             },
           },
-        })
-        .catch(this.handleError);
+        },
+      });
+    }
+
+    if (favoritedGame) {
+      return await this.prisma.favoriteGames.update({
+        where: {
+          id: user.favoriteGames.id,
+        },
+        data: {
+          games: {
+            disconnect: {
+              id: gameId,
+            },
+          },
+        },
+      });
+    }
+    else {
+      return await this.prisma.favoriteGames.update({
+        where: {
+          id: user.favoriteGames.id,
+        },
+        data: {
+          games: {
+            connect: {
+              id: gameId,
+            },
+          },
+        },
+      });
     }
   }
 

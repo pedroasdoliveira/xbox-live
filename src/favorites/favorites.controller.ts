@@ -20,19 +20,11 @@ export class FavoritesController {
     return this.favoritesService.findAll(id)
   }
 
-  @Put('id')
-  @ApiOperation({
-    summary: 'Adicionar jogos na lista de favoritos'
-  })
-  createFavoriteGame(@Param('id') id: string, @Body() dto: CreateFavoritesDto) {
-    return this.favoritesService.createFavorite(id, dto)
-  }
-
   @Patch(':id')
   @ApiOperation({
     summary: 'Adicionar ou remover jogo da lista de favoritos do perfil'
   })
   addFavorites(@Param('id') id: string, @Body() dto: UpdateFavoritesDto) {
-    return this.favoritesService.addFavorites(id, dto.favoriteGameId)
+    return this.favoritesService.addFavoriteOrRemove(id, dto.favoriteGameId)
   }
 }
