@@ -82,11 +82,6 @@ export class ProfileService {
           id: updateProfileDto.userId
         }
       },
-      games: {
-        connect: {
-          id: updateProfileDto.gamesId
-        }
-      }
     };
 
     return this.prisma.profile.update({
