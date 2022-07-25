@@ -13,10 +13,10 @@ export class CreateGameDto {
   @ApiProperty({
     description: 'Capa do Jogo',
     example:
-      'https://www.gamescast.com.br/wp-content/uploads/2021/03/forza-horizon.jpg',
+      'https://images5.alphacoders.com/746/746836.jpg',
   })
   coverImageUrl: string;
-
+  
   @IsString()
   @ApiProperty({
     description: 'Descrição do jogo',
