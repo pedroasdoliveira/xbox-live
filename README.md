@@ -60,6 +60,7 @@ Discord: 'Pedro_oliver#6046'
 
 - Author - Pedro Oliveira
 - Deploy da API - 'https://xbox-live-production.up.railway.app'
+- Heroku: 'https://xbox-live-serve.herokuapp.com'
 
 ## Licença
 
