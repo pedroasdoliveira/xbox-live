@@ -3,7 +3,7 @@ import { Prisma, PrismaClient } from "@prisma/client";
 export const games: Prisma.GamesCreateInput[] = [
   {
     title: 'The Witcher 3',
-    coverImageUrl: 'https://upload.wikimedia.org/wikipedia/pt/0/06/TW3_Wild_Hunt.png',
+    coverImageUrl: 'https://gamehall.com.br/wp-content/uploads/2015/11/The-Witcher-3-Wallpaper-Full-HD-Geralt-e-Espada-1920x1200.jpg',
     description: 'Jogo épico de aventura e rpg baseado nos contos de Andrzej Sapkowski ',
     year: 2015,
     imbScore: 5,
@@ -12,7 +12,7 @@ export const games: Prisma.GamesCreateInput[] = [
   },
   {
     title: 'Forza Horizon',
-    coverImageUrl: 'https://www.gamescast.com.br/wp-content/uploads/2021/03/forza-horizon.jpg',
+    coverImageUrl: 'https://images5.alphacoders.com/746/746836.jpg',
     description: 'Jogo de corrida',
     year: 2012,
     imbScore: 4,
@@ -21,7 +21,7 @@ export const games: Prisma.GamesCreateInput[] = [
   },
   {
     title: 'Halo Infinite',
-    coverImageUrl: 'https://upload.wikimedia.org/wikipedia/pt/d/d1/Halo_Infinite_capa.png',
+    coverImageUrl: 'https://sm.ign.com/ign_pt/screenshot/default/d7d71318-7c6d-4083-8351-f9b0b1e39ff0_g471.jpg',
     description: 'Excelente jogo exclusivo da Microsoft contanto a historia do Master Chef',
     year: 2021,
     imbScore: 4,
@@ -30,7 +30,7 @@ export const games: Prisma.GamesCreateInput[] = [
   },
   {
     title: 'Forza Horizon 5',
-    coverImageUrl: 'https://upload.wikimedia.org/wikipedia/pt/d/dc/Capa_de_Forza_Horizon_5.jpg',
+    coverImageUrl: 'https://images.alphacoders.com/116/thumb-1920-1168382.jpg',
     description: 'Forza Horizon 5 é um jogo eletrônico de corrida desenvolvido pela Playground Games e publicado pela Xbox Game Studios. É o quinto jogo da série Forza Horizon e o décimo segundo título principal da franquia Forza. O jogo se passa em uma representação ficcional do México.',
     year: 2021,
     imbScore: 5,
@@ -39,7 +39,7 @@ export const games: Prisma.GamesCreateInput[] = [
   },
   {
     title: 'Alan Wake Remastered',
-    coverImageUrl: 'https://elamigosedition.com/uploads/posts/2021-10/1633962915_alan-wake-remastered-cover-download.webp',
+    coverImageUrl: 'https://i0.wp.com/gamehall.com.br/wp-content/uploads/2021/09/alan-wake-remastered.jpg?fit=1920%2C1080&ssl=1',
     description: 'Excelente remastered',
     year: 2021,
     imbScore: 4,
@@ -48,13 +48,13 @@ export const games: Prisma.GamesCreateInput[] = [
   },
   {
     title: 'Elden Ring',
-    coverImageUrl: 'https://upload.wikimedia.org/wikipedia/pt/0/0d/Elden_Ring_capa.jpg',
+    coverImageUrl: 'https://images4.alphacoders.com/115/thumb-1920-1151249.jpg',
     description: 'Elden Ring é um jogo eletrônico de RPG de ação desenvolvido pela FromSoftware e publicado pela Bandai Namco Entertainment. O jogo é um projeto colaborativo entre o diretor Hidetaka Miyazaki e o romancista de fantasia George R. R. Martin.',
     year: 2022,
     imbScore: 5,
     trailerYoutubeUrl: 'https://www.youtube.com/watch?v=E3Huy2cdih0',
     gameplayYouTubeUrl: 'https://www.youtube.com/watch?v=JldMvQMO_5U',
-  }
+  },
 ]
 
 export const game = async (prisma: PrismaClient) => {

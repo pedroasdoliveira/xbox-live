@@ -5,10 +5,18 @@ import { cpf } from "cpf-cnpj-validator";
 export const users: Prisma.UserCreateInput[] = [
   {
     name: 'Pedro',
-    nickname: 'Destino_veleiro',
+    nickname: 'Ghost',
     email: 'Pedroalo@hotmail.com',
     password: 'Pxl@4568#',
     cpf: '278.442.374-30',
+    isAdmin: true,
+  },
+  {
+    name: 'Pedro Oliveira',
+    nickname: 'Destino_veleiro',
+    email: 'pedroaolive@gmail.com',
+    password: 'Pa44528033#',
+    cpf: '518.842.108-99',
     isAdmin: true,
   },
   {
