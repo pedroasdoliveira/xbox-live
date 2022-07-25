@@ -50,6 +50,7 @@ export class UserService {
         isAdmin: true,
         profiles: {
           select: {
+            id: true,
             title: true,
             imageUrl: true,
           }

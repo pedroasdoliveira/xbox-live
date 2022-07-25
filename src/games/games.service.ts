@@ -29,6 +29,7 @@ export class GamesService {
       include: {
         genders: {
           select: {
+            id: true,
             name: true,
           },
         },

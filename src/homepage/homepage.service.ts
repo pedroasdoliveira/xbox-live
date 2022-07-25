@@ -21,10 +21,12 @@ export class HomepageService {
           select: {
             games: {
               select: {
+                id: true,
                 title: true,
                 coverImageUrl: true,
                 description: true,
                 imbScore: true,
+                year: true,
                 genders: {
                   select: {
                     name: true,
@@ -36,10 +38,12 @@ export class HomepageService {
         },
         games: {
           select: {
+            id: true,
             title: true,
             coverImageUrl: true,
             description: true,
             imbScore: true,
+            year: true,
             genders: {
               select: {
                 name: true,

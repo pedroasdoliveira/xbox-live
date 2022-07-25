@@ -20,6 +20,7 @@ export class GendersService {
       include: {
         gamesGender: {
           select: {
+            id: true,
             title: true,
           },
         },
@@ -33,6 +34,7 @@ export class GendersService {
       include: {
         gamesGender: {
           select: {
+            id: true,
             title: true,
           },
         },
