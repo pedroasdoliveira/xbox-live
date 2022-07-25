@@ -88,8 +88,6 @@ export class GamesService {
     user: User,
   ): Promise<Game> {
     if (user.isAdmin) {
-      const actualGame = await this.findById(id);
-
       const data: Prisma.GamesUpdateInput = {
         title: updateGameDto.title,
         coverImageUrl: updateGameDto.coverImageUrl,
@@ -99,9 +97,6 @@ export class GamesService {
         imbScore: updateGameDto.imbScore,
         trailerYoutubeUrl: updateGameDto.trailerYoutubeUrl,
         genders: {
-          disconnect: {
-            name: actualGame.gender[0].name,
-          },
           connect: {
             name: updateGameDto.genreGame,
           },
