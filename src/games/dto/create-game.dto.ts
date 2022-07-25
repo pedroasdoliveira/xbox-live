@@ -5,7 +5,7 @@ export class CreateGameDto {
   @IsString()
   @ApiProperty({
     description: 'Nome do jogo',
-    example: 'Forza Horizon',
+    example: 'Red Dead Redemption 2',
   })
   title: string;
 
@@ -13,47 +13,47 @@ export class CreateGameDto {
   @ApiProperty({
     description: 'Capa do Jogo',
     example:
-      'https://images5.alphacoders.com/746/746836.jpg',
+      'https://img.olhardigital.com.br/wp-content/uploads/2021/05/Red-Dead-Redemption-2-Divulgacao.jpg',
   })
   coverImageUrl: string;
-  
+
   @IsString()
   @ApiProperty({
     description: 'Descrição do jogo',
-    example: 'Jogo de corrida',
+    example: 'Jogo foda',
   })
   description: string;
 
   @ApiProperty({
     description: 'Ano de lançamento',
-    example: 2012,
+    example: 2018,
   })
   year: number;
 
   @ApiProperty({
     description: 'Pontuação do jogo no IMB',
-    example: 4,
+    example: 5,
   })
   imbScore: number;
 
   @IsUrl()
   @ApiProperty({
     description: 'Trailer do jogo',
-    example: 'https://www.youtube.com/watch?v=h_Fy2ke1lR4',
+    example: 'https://www.youtube.com/watch?v=eaW0tYpxyp0',
   })
   trailerYoutubeUrl: string;
 
   @IsUrl()
   @ApiProperty({
     description: 'Gameplay',
-    example: 'https://www.youtube.com/watch?v=fWJSzIZIowI',
+    example: 'https://www.youtube.com/watch?v=Dw_oH5oiUSE',
   })
   gameplayYouTubeUrl: string;
 
   @IsString()
   @ApiProperty({
     description: 'Gênero do jogo',
-    example: 'FPS'
+    example: 'Ação'
   })
   genreGame?: string;
 }
