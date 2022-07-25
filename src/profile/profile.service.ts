@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { User } from 'src/User/entities/user.entities';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { Profile } from './entities/profile.entity';
@@ -32,8 +33,11 @@ export class ProfileService {
       .catch(this.handleError);
   }
 
-  findAll() {
+  findAll(user: User) {
     return this.prisma.profile.findMany({
+      where: {
+        userId: user.id
+      },
       select: {
         id: true,
         title: true,
@@ -78,11 +82,6 @@ export class ProfileService {
           id: updateProfileDto.userId
         }
       },
-      games: {
-        connect: {
-          id: updateProfileDto.gamesId
-        }
-      }
     };
 
     return this.prisma.profile.update({

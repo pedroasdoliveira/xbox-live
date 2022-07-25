@@ -24,14 +24,12 @@ export class CreateGameDto {
   })
   description: string;
 
-  @IsNumber()
   @ApiProperty({
     description: 'Ano de lançamento',
     example: 2012,
   })
   year: number;
 
-  @IsNumber()
   @ApiProperty({
     description: 'Pontuação do jogo no IMB',
     example: 4,

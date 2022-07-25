@@ -40,7 +40,21 @@ export class UserService {
   async findById(id: string): Promise<User> {
     const record = await this.prisma.user.findUnique({
       where: { id },
-      select: this.userSelect,
+      select: {
+        id: true,
+        name: true,
+        nickname: true,
+        email: true,
+        cpf: true,
+        password: true,
+        isAdmin: true,
+        profiles: {
+          select: {
+            title: true,
+            imageUrl: true,
+          }
+        }
+      },
      });
 
     if (!record) {
