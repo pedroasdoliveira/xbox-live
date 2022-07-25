@@ -1,11 +1,9 @@
 import {
   Injectable,
   NotFoundException,
-  UnprocessableEntityException,
+  UnprocessableEntityException
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { CreateFavoritesDto } from './dto/create-favorite.dto';
 
 @Injectable()
 export class FavoritesService {
@@ -17,10 +15,12 @@ export class FavoritesService {
       select: {
         games: {
           select: {
+            id: true,
             title: true,
             coverImageUrl: true,
             description: true,
             imbScore: true,
+            year: true,
           },
         },
         favoriteGames: {
@@ -32,6 +32,7 @@ export class FavoritesService {
                 coverImageUrl: true,
                 description: true,
                 imbScore: true,
+                year: true,
               },
             },
             id: true,
