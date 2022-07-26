@@ -58,6 +58,7 @@ export class ProfileService {
     const record = await this.prisma.profile.findUnique({
       where: {id},
       include: {
+        user: true,
         games: true,
       },
     });
